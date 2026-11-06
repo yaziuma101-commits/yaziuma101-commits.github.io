@@ -1,0 +1,153 @@
+/* タイトルの選択肢：大きなボタン・選んでいる項目の強調・モヒカンのカーソル・揺れ・決定のポヨン。
+   色はすべて palette.js 由来の CSS 変数（--p-キー名）。黒丸は出さない。 */
+#title-menu {
+  list-style: none;
+  margin: 1.2em auto 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75em;
+}
+
+#title-menu > * {
+  list-style: none;
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  min-width: 13em;
+  margin: 0;
+  padding: 0.55em 1.6em;
+  font-size: 1.45rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: var(--p-uiText);
+  background: var(--p-uiPanel);
+  border: 3px solid var(--p-uiBorder);
+  border-radius: 1.2em;
+  box-shadow: 0 0.3em 0 var(--p-uiShade);
+  cursor: pointer;
+  user-select: none;
+  transform-origin: 50% 60%;
+  animation: tm-wobble 2.6s ease-in-out infinite;
+  animation-delay: calc(var(--tm-i, 0) * -0.45s);
+  transition: background-color 0.12s, border-color 0.12s, color 0.12s;
+}
+
+#title-menu > *::marker {
+  content: '';
+}
+
+/* 項目の中のボタン・リンクは外側の見た目に任せる */
+#title-menu > * button,
+#title-menu > * a {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  cursor: inherit;
+}
+
+#title-menu > .disabled,
+#title-menu > [aria-disabled="true"],
+#title-menu > :has(> button:disabled) {
+  opacity: 0.55;
+}
+
+/* 選んでいる項目 */
+#title-menu > .tm-sel {
+  background: var(--p-uiAccent);
+  border-color: var(--p-uiGold);
+  color: var(--p-uiText);
+  box-shadow: 0 0.35em 0 var(--p-uiShade), 0 0 0 0.18em var(--p-uiShade);
+  animation: tm-wobble-sel 0.9s ease-in-out infinite;
+  z-index: 1;
+}
+
+/* 選んでいる項目の両脇で跳ねる小さなモヒカン */
+#title-menu > .tm-sel::before,
+#title-menu > .tm-sel::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 1.1em;
+  height: 1.35em;
+  margin-top: -0.75em;
+  background: repeating-linear-gradient(90deg,
+    var(--p-heroMohican) 0 0.22em,
+    var(--p-heroMohicanStripe) 0.22em 0.3em);
+  clip-path: polygon(38% 100%, 62% 100%, 100% 0, 0 0);
+  transform-origin: 50% 100%;
+  animation: tm-hop 0.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+#title-menu > .tm-sel::before {
+  left: -1.9em;
+}
+
+#title-menu > .tm-sel::after {
+  right: -1.9em;
+  animation-delay: -0.25s;
+}
+
+/* 決定の「ポヨン」 */
+#title-menu > .tm-poyon {
+  animation: tm-poyon 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) 1 both;
+}
+
+/* おふざけ度 0：揺らさない（カーソルとポヨンは残す） */
+#title-menu.tm-calm > * {
+  animation: none;
+}
+
+#title-menu.tm-calm > .tm-sel {
+  animation: none;
+  transform: scale(1.1);
+}
+
+#title-menu.tm-calm > .tm-poyon {
+  animation: tm-poyon 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) 1 both;
+}
+
+@keyframes tm-wobble {
+  0%, 100% { transform: rotate(-1.2deg) translateY(0); }
+  50% { transform: rotate(1.2deg) translateY(-0.08em); }
+}
+
+@keyframes tm-wobble-sel {
+  0%, 100% { transform: scale(1.1) rotate(-2.5deg); }
+  50% { transform: scale(1.13) rotate(2.5deg); }
+}
+
+@keyframes tm-hop {
+  0%, 100% { transform: translateY(0) scale(1.15, 0.8); }
+  15% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(-0.55em) scale(0.92, 1.1); }
+  85% { transform: translateY(0) scale(1, 1); }
+}
+
+@keyframes tm-poyon {
+  0% { transform: scale(1.1); }
+  25% { transform: scale(1.32, 0.82); }
+  45% { transform: scale(0.9, 1.2); }
+  65% { transform: scale(1.18, 0.94); }
+  85% { transform: scale(1.06, 1.04); }
+  100% { transform: scale(1.1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #title-menu > *,
+  #title-menu > .tm-sel,
+  #title-menu > .tm-sel::before,
+  #title-menu > .tm-sel::after {
+    animation: none;
+  }
+}

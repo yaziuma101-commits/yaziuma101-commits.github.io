@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>すべての絵 | タクアンの島</title>
+  <meta name="description" content="タクアンが VRChat で描いた絵を、描いた月ごとに全部並べたページ">
+  <link rel="icon" href="images/drawings/toufu.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="index.html">タクアンの島</a>
+    <nav class="nav">
+      <a href="index.html#drawings">選んだ絵</a>
+      <a href="index.html#gifs">GIF</a>
+      <a href="index.html#games">ゲーム</a>
+      <a href="index.html#videos">実況</a>
+      <a href="index.html#goods">グッズ</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="sec">
+      <h1 class="sec-title"><span>すべての絵</span></h1>
+      <p class="sec-note" id="all-summary">VRChat の中で描いた絵を、描いた月ごとに並べています。日付は撮った日です。</p>
+      <nav class="month-nav" id="month-nav" aria-label="月を選ぶ"></nav>
+      <div id="months"></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>© タクアン　絵・ゲームの無断転載はご遠慮ください</p>
+  </footer>
+
+  <dialog class="viewer" id="viewer">
+    <button class="v-close" type="button" aria-label="閉じる">×</button>
+    <button class="v-prev" type="button" aria-label="前の絵">‹</button>
+    <img id="viewer-img" alt="">
+    <button class="v-next" type="button" aria-label="次の絵">›</button>
+    <p class="v-count" id="viewer-count"></p>
+  </dialog>
+
+  <script src="all.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

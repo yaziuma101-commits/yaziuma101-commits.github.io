@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>タクアリヌスとモヒカンの島</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+      "three.quarks": "https://cdn.jsdelivr.net/npm/three.quarks@0.11.2/dist/three.quarks.esm.js"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="title-menu.css">
+  <style>
+    #mg-howto, #mg-result { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: color-mix(in srgb, var(--p-uiBg, black) 55%, transparent); z-index: 12;
+      color: var(--p-uiText, white);
+      font-family: system-ui, "Hiragino Maru Gothic ProN", "Meiryo", sans-serif; }
+    #mg-howto.hidden, #mg-hud.hidden, #mg-result.hidden { display: none; }
+    #mg-howto .mg-panel, #mg-result .mg-panel { background: var(--p-uiPanel, darkslateblue); color: var(--p-uiText, white);
+      border: 3px solid var(--p-uiBorder, white); border-radius: 16px; padding: 18px 28px 14px;
+      box-shadow: 0 6px 0 var(--p-uiShade, black); max-width: 90vw; text-align: center; }
+    #mg-howto h2, #mg-result h2 { margin: 0 0 6px; font-size: clamp(22px, 4vw, 36px); }
+    #mg-result h2 { font-size: clamp(30px, 6vw, 56px); }
+    #mg-result h2.mg-good { color: var(--p-uiGood, lime); }
+    #mg-result h2.mg-bad { color: var(--p-uiBad, tomato); }
+    #mg-result .mg-line { margin: 4px 0; font-weight: 800; font-size: clamp(16px, 2.6vw, 24px); }
+    #mg-result .mg-choices { display: flex; gap: 14px; justify-content: center; margin-top: 14px; }
+    #mg-result .mg-choice { font: 900 clamp(16px, 2.4vw, 22px) system-ui, sans-serif; padding: 8px 20px;
+      border-radius: 12px; border: 3px solid var(--p-uiBorder, white); cursor: pointer;
+      background: var(--p-uiShade, black); color: var(--p-uiText, white); }
+    #mg-result .mg-choice.sel { background: var(--p-uiAccent, hotpink); }
+    #mg-howto .mg-sub { margin: 0 0 12px; color: var(--p-uiGold, gold); font-weight: 800; }
+    #mg-howto dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; margin: 0; text-align: left;
+      font-size: clamp(14px, 2.2vw, 20px); }
+    #mg-howto dt { font-weight: 900; color: var(--p-uiAccent, hotpink); white-space: nowrap; }
+    #mg-howto dd { margin: 0; }
+    #mg-howto .mg-note { margin: 14px 0 0; color: var(--p-uiDim, silver); font-weight: 700; }
+    #mg-howto .mg-panel { max-height: 92vh; overflow: auto; }
+    #mg-howto .mg-desc { margin: 0 0 6px; text-align: left; font-weight: 700; font-size: clamp(14px, 2.1vw, 19px); }
+    #mg-howto dl { margin-top: 10px; }
+    #mg-howto .mg-win { margin: 12px 0 0; color: var(--p-uiGood, lime); font-weight: 900; font-size: clamp(15px, 2.3vw, 21px); }
+    #mg-howto .mg-carry { margin: 8px 0 0; color: var(--p-uiGold, gold); font-weight: 800; }
+    #mg-hud { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 11;
+      padding: 6px 18px; border-radius: 12px; background: var(--p-uiPanel, darkslateblue); color: var(--p-uiText, white);
+      border: 2px solid var(--p-uiBorder, white); font: 800 clamp(14px, 2.4vw, 22px) system-ui, sans-serif;
+      pointer-events: none; white-space: nowrap; }
+    #mg-pop { position: fixed; left: 50%; top: 30%; transform: translate(-50%, -50%); z-index: 11; pointer-events: none;
+      font: 900 clamp(28px, 7vw, 64px) system-ui, "Hiragino Maru Gothic ProN", sans-serif; white-space: nowrap;
+      color: var(--p-uiGold, gold); -webkit-text-stroke: 2px var(--p-uiShade, black);
+      text-shadow: 0 4px 0 var(--p-uiShade, black); opacity: 0; }
+    #mg-pop.good { color: var(--p-uiGood, lime); }
+    #mg-pop.bad { color: var(--p-uiBad, tomato); }
+    #mg-pop.show { animation: mgPop 0.9s ease-out forwards; }
+    @keyframes mgPop {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+      15% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+      30% { transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -75%) scale(1); }
+    }
+    #mg-banner { position: fixed; left: 50%; top: 18%; transform: translateX(-50%); z-index: 11; pointer-events: none;
+      padding: 8px 22px; border-radius: 14px; background: var(--p-uiAccent, hotpink); color: var(--p-uiText, white);
+      border: 3px solid var(--p-uiBorder, white); box-shadow: 0 5px 0 var(--p-uiShade, black);
+      font: 900 clamp(18px, 4.2vw, 38px) system-ui, "Hiragino Maru Gothic ProN", sans-serif; white-space: nowrap;
+      animation: mgWiggle 0.35s ease-in-out infinite alternate; }
+    #mg-banner.hidden { display: none; }
+    @keyframes mgWiggle {
+      from { transform: translateX(-50%) rotate(-4deg) scale(1); }
+      to { transform: translateX(-50%) rotate(4deg) scale(1.06); }
+    }
+    #mg-result .mg-prompt { margin: 12px 0 2px; font-weight: 900; font-size: clamp(18px, 3vw, 28px);
+      color: var(--p-uiGold, gold); animation: mgBlink 0.9s steps(2) infinite; }
+    @keyframes mgBlink { 50% { opacity: 0.45; } }
+    #mg-pop.zuko { color: var(--p-uiAccent, hotpink); font-size: clamp(44px, 11vw, 104px); }
+    #mg-pop.zuko.show { animation-duration: 1.7s; }
+  </style>
+</head>
+<body>
+  <canvas id="view"></canvas>
+
+  <div id="hint" class="hidden"></div>
+  <div id="toast" class="hidden"></div>
+
+  <div id="dialog" class="hidden">
+    <div id="dialog-name"></div>
+    <div id="dialog-text"></div>
+    <div id="dialog-next">▼ E / Enter</div>
+  </div>
+
+  <div id="title" class="overlay hidden">
+    <div class="tl-rays" aria-hidden="true"></div>
+    <div class="tl-sparkles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="tl-mohawk" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <h1 class="tl-logo"><span class="tl-line tl-line1">タクアリヌスと</span><br><span class="tl-line tl-line2"><span>モ</span><span>ヒ</span><span>カ</span><span>ン</span><span>の</span><span>島</span></span></h1>
+    <p class="tl-tagline">〜 さらわれた仲間を助け出せ！ 〜</p>
+    <ul id="title-menu">
+      <li>Enter でスタート</li>
+      <li>データを消す</li>
+    </ul>
+    <p id="title-msg"></p>
+    <p class="title-hint">↑↓ で選ぶ ／ Enter で決定</p>
+    <p class="title-hint">移動: WASD/矢印 ／ Shift: ダッシュ ／ Space: ジャンプ ／ カメラ: Q・E/ドラッグ ／ 話す: E・Enter ／ ポーズ: Esc ／ 消音: M</p>
+  </div>
+
+  <div id="pause" class="overlay hidden">
+    <div id="pause-shade"></div>
+    <div class="pause-panel">
+      <h2>ポーズ</h2>
+      <ul id="pause-menu"></ul>
+      <p class="title-hint">↑↓ で選ぶ ／ Enter で決定 ／ Esc で再開</p>
+      <p class="title-hint">移動: WASD/矢印 ／ Shift: ダッシュ ／ Space: ジャンプ ／ カメラ: Q・E/ドラッグ<br>ハブ: 台座の前で E: モヒカンを付け替える<br>パズル: Z で1手戻す ／ R でやり直し<br>レース: Shift: ドリフト ／ F: 飛び移る／パンチ ／ E: カートに乗る<br>FPS: マウス・←→で狙う ／ クリック・J: 撃つ ／ R: 補充<br>タッチタッチ: A/D 傾く ／ S しゃがむ ／ W 前のめり ／ J・左クリック / K: タッチ<br>積み上げ: Space でモヒカンを落として積む<br>M: 消音の切り替え</p>
+    </div>
+  </div>
+
+  <div id="stats" class="hidden"></div>
+
+  <div id="mg-howto" class="hidden"></div>
+  <div id="mg-hud" class="hidden"></div>
+  <div id="mg-result" class="hidden"></div>
+  <div id="mg-pop"></div>
+  <div id="mg-banner" class="hidden"></div>
+
+  <div id="fade"></div>
+
+  <script type="module" src="./js/main.js"></script>
+  <script type="module">
+    import { installTitleMenuFx } from './js/title-menu-fx.js';
+    installTitleMenuFx(document);
+  </script>
+</body>
+</html>

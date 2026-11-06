@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>タクアンの島</title>
+  <meta name="description" content="タクアンの絵・GIF・ゲーム・実況動画・グッズをまとめたサイト">
+  <meta property="og:title" content="タクアンの島">
+  <meta property="og:description" content="タクアンの絵・GIF・ゲーム・実況動画・グッズ">
+  <meta property="og:image" content="images/game/screen-1.png">
+  <link rel="icon" href="images/drawings/toufu.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="#">タクアンの島</a>
+    <nav class="nav">
+      <a href="#drawings">絵</a>
+      <a href="#gifs">GIF</a>
+      <a href="#games">ゲーム</a>
+      <a href="#videos">実況</a>
+      <a href="#goods">グッズ</a>
+      <a href="#links">リンク</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="rays" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="hero-kicker">絵とゲームと実況の</p>
+      <h1 class="hero-title">タクアンの島</h1>
+      <p class="hero-lead">VRChat で描いた絵、動く GIF、自作のゲーム、ゲーム実況、それからグッズ。ぜんぶここに置いてあります。</p>
+      <div class="hero-buttons">
+        <a class="btn btn-blue" href="#drawings">絵を見る</a>
+        <a class="btn btn-green" href="#games">ゲームで遊ぶ</a>
+      </div>
+    </div>
+    <div class="island" aria-hidden="true">
+      <img class="frame f1" src="images/drawings/deka-atama.webp" alt="">
+      <img class="frame f2" src="images/drawings/mohikan-motte.webp" alt="">
+      <img class="frame f3" src="images/drawings/nakayoshi.webp" alt="">
+    </div>
+  </section>
+
+  <main>
+    <section id="drawings" class="sec">
+      <h2 class="sec-title"><span>絵</span></h2>
+      <p class="sec-note">VRChat の中で描いた絵から選んだものです。日付と時刻は撮ったとき。押すと大きく見られます。</p>
+      <div class="masonry" id="drawing-grid"></div>
+      <div class="more all-link"><a class="btn btn-blue" href="drawings.html">すべての絵を見る（月ごと）</a></div>
+    </section>
+
+    <section id="gifs" class="sec">
+      <h2 class="sec-title"><span>GIF</span></h2>
+      <p class="sec-note">動く落書き。</p>
+      <div class="gif-grid" id="gif-grid"></div>
+      <div class="more"><button class="btn btn-blue" id="gif-more" type="button">もっと見る</button></div>
+    </section>
+
+    <section id="games" class="sec">
+      <h2 class="sec-title"><span>ゲーム</span></h2>
+      <article class="game-card">
+        <div class="game-shots">
+          <img src="images/game/screen-1.png" alt="タイトル画面" loading="lazy">
+          <img src="images/game/screen-2.png" alt="ゲーム画面" loading="lazy">
+          <img src="images/game/screen-3.png" alt="ゲーム画面" loading="lazy">
+        </div>
+        <div class="game-body">
+          <h3>タクアリヌスとモヒカンの島</h3>
+          <p>主人公タクアリヌスが島をめぐり、番長たちとミニゲームで勝負してモヒカンを集める 3D アドベンチャー。パズル、レース、水鉄砲、将棋、格闘、ホラー、怪獣まで、館の絵に飛び込むと色んな遊びが待っています。</p>
+          <ul class="game-tags">
+            <li>ブラウザで遊べる</li>
+            <li>パソコン・キーボード向け</li>
+            <li>音が出ます</li>
+          </ul>
+          <a class="btn btn-green" href="games/takuarinus-island/index.html" target="_blank" rel="noopener">ブラウザで遊ぶ ↗</a>
+        </div>
+      </article>
+    </section>
+
+    <section id="videos" class="sec">
+      <h2 class="sec-title"><span>ゲーム実況</span></h2>
+      <p class="sec-note">YouTube チャンネル「タクアン」の新しい動画から順に流れます。</p>
+      <div class="video">
+        <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=UUtiRVs_hjNYfDQbefenaG3w" title="タクアンのゲーム実況" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="more"><a class="btn btn-red" href="https://www.youtube.com/@%E3%82%BF%E3%82%AF%E3%82%A2%E3%83%B3-t5b" target="_blank" rel="noopener">チャンネルを見る ↗</a></div>
+    </section>
+
+    <section id="goods" class="sec">
+      <h2 class="sec-title"><span>グッズ</span></h2>
+      <a class="goods-card" href="https://suzuri.jp/Takuan13571113" target="_blank" rel="noopener">
+        <div class="goods-pics" aria-hidden="true">
+          <img src="images/drawings/mohifry.webp" alt="" loading="lazy">
+          <img src="images/drawings/onasu.webp" alt="" loading="lazy">
+          <img src="images/drawings/neko.webp" alt="" loading="lazy">
+        </div>
+        <div class="goods-body">
+          <h3>SUZURI のショップ</h3>
+          <p>描いた絵をグッズにしています。</p>
+          <span class="btn btn-brown">ショップへ ↗</span>
+        </div>
+      </a>
+    </section>
+
+    <section id="links" class="sec">
+      <h2 class="sec-title"><span>リンク</span></h2>
+      <ul class="link-list">
+        <li><a href="https://x.com/Takuan13571113" target="_blank" rel="noopener"><b>X</b><small>@Takuan13571113</small></a></li>
+        <li><a href="https://www.pixiv.net/users/20326071" target="_blank" rel="noopener"><b>pixiv</b><small>絵の置き場</small></a></li>
+        <li><a href="https://www.youtube.com/@%E3%82%BF%E3%82%AF%E3%82%A2%E3%83%B3-t5b" target="_blank" rel="noopener"><b>YouTube</b><small>ゲーム実況</small></a></li>
+        <li><a href="https://suzuri.jp/Takuan13571113" target="_blank" rel="noopener"><b>SUZURI</b><small>グッズ</small></a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>© タクアン　絵・ゲームの無断転載はご遠慮ください</p>
+  </footer>
+
+  <dialog class="viewer" id="viewer">
+    <button class="v-close" type="button" aria-label="閉じる">×</button>
+    <button class="v-prev" type="button" aria-label="前の絵">‹</button>
+    <img id="viewer-img" alt="">
+    <button class="v-next" type="button" aria-label="次の絵">›</button>
+    <p class="v-count" id="viewer-count"></p>
+  </dialog>
+
+  <script src="data.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
