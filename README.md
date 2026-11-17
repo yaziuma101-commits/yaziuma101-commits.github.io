@@ -6,7 +6,10 @@
 
 | 場所 | 中身 |
 |---|---|
-| `index.html` / `style.css` / `main.js` | サイト本体 |
+| `index.html` / `style.css` / `main.js` | サイト本体（2000年ごろの個人ホームページ風） |
+| `aisatsu.html` | タクアリヌスのご挨拶 |
+| `functions/api/counter.js` | アクセスカウンター（Cloudflare Pages Functions と KV） |
+| `images/retro/` | ドット絵の飾り（GIF）。`node tools/retro-art.mjs` で作り直せる |
 | `drawings.html` | すべての絵（月ごと・日付つき） |
 | `data.js` | トップに載せる選んだ絵（`PICKS`）と GIF の一覧 |
 | `all.js` | すべての絵の一覧（自動で作る） |
@@ -51,3 +54,18 @@ python -m http.server 8765 --directory C:/work/takuan-site
 ```
 
 http://localhost:8765 を開く。
+
+## アクセスカウンター
+
+トップの「あなたは ○ 人目」は `functions/api/counter.js` が数える。数は Cloudflare の KV に入れる。
+1回の訪問（タブを閉じるまで）につき1回だけ数える。キリ番（1000 ごと・777 のようなゾロ目）を踏むと、その人にだけ「キリ番です！」と出る。
+
+Cloudflare 側の準備（ダッシュボードで1回だけ）:
+
+1. 「ストレージとデータベース」→「Workers KV」で名前空間を作る（名前の例: `takuan-counter`）。
+2. 「Workers & Pages」→ `takuan-site` →「設定」→「バインディング」で「KV 名前空間」を足す。変数名は **`COUNTER`**、名前空間は 1 で作ったもの。
+3. もう一度デプロイする（次の push か、「デプロイ」の画面で最新のものを再試行）。
+
+KV が結びついていないあいだは、カウンターに「-------」と出るだけで、ほかは普通に動く。
+KV の無料枠は書き込みが1日1,000回まで（1日1,000人を超えると、その日の超えた分は数えられない）。
+手元の `python -m http.server` では Functions が動かないので、カウンターは「-------」になる。

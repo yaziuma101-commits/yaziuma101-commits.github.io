@@ -132,6 +132,41 @@
       jpDate(first) + "から）。日付と時刻は撮ったときのものです。押すと大きく見られます。";
   }
 
+  // アクセスカウンター（トップだけ）。1回の訪問（タブを閉じるまで）につき1回だけ数える
+  const counter = document.getElementById("counter");
+  if (counter) {
+    const DIGITS = 7;
+    const draw = (str) => {
+      counter.replaceChildren(...[...str].map((ch) => {
+        const s = document.createElement("span");
+        s.textContent = ch;
+        return s;
+      }));
+    };
+    // キリ番: 1000 ごと、または 3 桁以上のゾロ目（777、1111 など）
+    const isKiriban = (n) => n > 0 && (n % 1000 === 0 || (n >= 100 && /^(\d)\1+$/.test(String(n))));
+    let counted = false;
+    try { counted = sessionStorage.getItem("takuan-counted") === "1"; } catch (e) { /* 使えなくても数える */ }
+    fetch("/api/counter", { method: counted ? "GET" : "POST" })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then(({ count }) => {
+        draw(String(count).padStart(DIGITS, "0"));
+        counter.setAttribute("aria-label", count + " 人目");
+        if (!counted) {
+          try { sessionStorage.setItem("takuan-counted", "1"); } catch (e) { /* 何もしない */ }
+          if (isKiriban(count)) {
+            const k = document.getElementById("kiriban");
+            k.textContent = "★ キリ番 " + count + " です！おめでとう！ ★";
+            k.hidden = false;
+          }
+        }
+      })
+      .catch(() => {
+        counter.setAttribute("aria-label", "準備中");
+        draw("-------");
+      });
+  }
+
   // 拡大表示の操作
   viewer.querySelector(".v-close").addEventListener("click", () => viewer.close());
   viewer.querySelector(".v-prev").addEventListener("click", () => step(-1));
