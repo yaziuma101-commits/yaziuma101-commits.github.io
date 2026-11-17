@@ -8,7 +8,11 @@ export async function onRequest({ request, next }) {
   const path = new URL(request.url).pathname;
   const type = res.headers.get("content-type") || "";
   if (request.method !== "GET" || !type.includes("text/html") || !GAMES.some((g) => path.startsWith(g))) return res;
-  return new HTMLRewriter()
-    .on("body", { element(el) { el.append(TAG, { html: true }); } })
-    .transform(res);
+  try {
+    return new HTMLRewriter()
+      .on("body", { element(el) { el.append(TAG, { html: true }); } })
+      .transform(res);
+  } catch (e) {
+    return res; // 差しこめなくてもゲームはそのまま遊べるように
+  }
 }
