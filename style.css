@@ -273,6 +273,8 @@ code { font-size: 12px; background: var(--pale); padding: 0 3px; border: 1px sol
 .profile th { width: 7.5em; background: var(--o); color: #fff; font: 400 13px/1.7 var(--font-dot); white-space: nowrap; }
 .sign { display: flex; justify-content: flex-end; align-items: center; gap: 12px; clear: both; font-family: var(--font-dot); text-align: right; }
 .sign p { margin: 0; }
+.ai-note { clear: both; margin: 14px 0 0; padding: 8px 12px; font-size: 13px; background: #fffbe0; border: 1px dashed #c9a227; }
+.welcome-body .ai-note { margin: 8px 0; padding: 6px 10px; }
 .sign-name { font-size: 20px; letter-spacing: .1em; }
 .hanko {
   display: inline-grid; place-items: center; width: 46px; height: 46px; flex: 0 0 auto;
