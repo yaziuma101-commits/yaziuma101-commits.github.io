@@ -170,4 +170,16 @@
       setTimeout(() => show(i, j, true), 700);
     });
   }
+
+  // 絵を並べたあとでページが伸びるので、#game-jukusei などで来たときは並べ終わってから飛び直す
+  // （ゲームの「おわる」ボタンからここへ戻ってくる）
+  if (/^#[\w-]+$/.test(location.hash)) {
+    const target = document.getElementById(location.hash.slice(1));
+    if (target) {
+      // 少しのあいだ何度か合わせ直す（あとから伸びる分に追いつくため）。自分でスクロールしたらやめる
+      const timers = [0, 150, 500, 1200, 2500, 4000].map((ms) => setTimeout(() => target.scrollIntoView(), ms));
+      const stop = () => { timers.forEach(clearTimeout); ["wheel", "touchstart", "keydown", "mousedown"].forEach((t) => removeEventListener(t, stop)); };
+      ["wheel", "touchstart", "keydown", "mousedown"].forEach((t) => addEventListener(t, stop, { passive: true }));
+    }
+  }
 })();

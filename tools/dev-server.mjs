@@ -42,7 +42,12 @@ createServer(async (req, res) => {
     if (!s && !extname(file)) { file += ".html"; s = await stat(file).catch(() => null); }
     if (!s) { res.writeHead(404); res.end("404"); return; }
     res.writeHead(200, { "content-type": TYPES[extname(file).toLowerCase()] || "application/octet-stream", "cache-control": "no-store" });
-    res.end(await readFile(file));
+    let body = await readFile(file);
+    // functions/games/_middleware.js と同じく、2本のゲームの HTML に「おわる」ボタンを差しこむ
+    if (/^\/games\/(jukusei-deck|takuarinus-island)\//.test(url.pathname) && extname(file) === ".html") {
+      body = Buffer.from(body.toString("utf8").replace(/<\/body>/i, '<script src="/game-exit.js" defer></script></body>'));
+    }
+    res.end(body);
   } catch (e) {
     res.writeHead(500); res.end(String(e));
   }

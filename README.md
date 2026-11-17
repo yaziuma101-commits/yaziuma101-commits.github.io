@@ -18,6 +18,7 @@
 | `images/gif/` | GIF |
 | `images/game/` | ゲームの画面写真 |
 | `games/takuarinus-island/` | 「タクアリヌスとモヒカンの島」の公開版（AI_Soft の `projects/0038-…/dist/site` の写し） |
+| `game-exit.js` ・ `functions/games/_middleware.js` | 2本のゲームの画面の上のまん中に出る「おわる」ボタン。ゲームのファイルは書き換えず、middleware が HTML に `<script src="/game-exit.js">` を差しこむ（手元では `tools/dev-server.mjs` が同じことをする）。押すと確かめてから `/#game-shima`・`/#game-jukusei` へ戻る。熟成デッキを新しい版に入れ替えてもボタンは付いたまま |
 
 ## 絵の選び方（2026-11-06）
 
