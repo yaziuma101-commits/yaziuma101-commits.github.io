@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#13237a">
+<title>熟成デッキ</title>
+<link rel="preload" href="font/DotGothic16-Regular.ttf?v=0.8.0" as="font" type="font/ttf" crossorigin>
+<style>
+  /* DotGothic16（SIL OFL 1.1。font/OFL.txt）。外から読まず同梱する */
+  @font-face { font-family: "DotGothic16"; src: url("font/DotGothic16-Regular.ttf?v=0.8.0") format("truetype"); font-display: block; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; background: #13237a; overflow: hidden; }
+  #screen { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; margin: -360px 0 0 -640px; font-family: "DotGothic16", monospace; color: #13237a; }
+  /* 指で長押ししても文字選びや拡大にならないように */
+  #screen, canvas { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  canvas { position: absolute; inset: 0; width: 1280px; height: 720px; image-rendering: pixelated; }
+  #txt { position: absolute; inset: 0; pointer-events: none; }
+  .t { position: absolute; font-size: 16px; line-height: 16px; white-space: nowrap; }
+  .s12 { font-size: 12px; line-height: 12px; }
+  .big { font-size: 32px; line-height: 32px; }
+  .w { color: #fffdf6; } .r { color: #d8392b; }
+  .sh { background: #13237a; padding: 3px 6px; }
+  .wrap { white-space: normal; width: 200px; line-height: 16px; }
+  /* 演出で飛ぶ字。色は art.js の16色から */
+  .l { color: #6fb6ff; } .Y { color: #e8b520; } .m { color: #8a8f3a; } .pp { color: #6b3a8a; } .gr { color: #3fae4f; }
+  .pop { font-size: 24px; line-height: 24px; text-shadow: 3px 0 #13237a, -3px 0 #13237a, 0 3px #13237a, 0 -3px #13237a, 3px 3px #13237a, -3px -3px #13237a, 3px -3px #13237a, -3px 3px #13237a; }
+  /* 小さい画面（スマホ）では小さい字を一回り大きく。つぶれないように */
+  .tiny .t { font-size: 19px; line-height: 19px; }
+  .tiny .s12 { font-size: 16px; line-height: 16px; }
+  .tiny .big { font-size: 34px; line-height: 34px; }
+  .tiny .t.pop { font-size: 26px; line-height: 26px; }
+  .pop.s12 { font-size: 16px; line-height: 16px; }
+  .pop.big { font-size: 40px; line-height: 40px; }
+  .pp.pop, .m.pop { text-shadow: 3px 0 #fffdf6, -3px 0 #fffdf6, 0 3px #fffdf6, 0 -3px #fffdf6, 3px 3px #fffdf6, -3px -3px #fffdf6, 3px -3px #fffdf6, -3px 3px #fffdf6; }
+  .fade { opacity: 0.45; }
+  .pk { width: 264px; }
+  /* スマホを縦に持ったときだけ「横にしてください」 */
+  #rot { display: none; position: fixed; inset: 0; background: #13237a; color: #fffdf6; font-family: "DotGothic16", monospace; font-size: 20px; text-align: center; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+  #rot .ph { width: 40px; height: 64px; border: 4px solid #fffdf6; border-radius: 6px; animation: turn 2s steps(4) infinite; }
+  @keyframes turn { 0%, 40% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
+  @media (orientation: portrait) and (pointer: coarse) { #rot { display: flex; } #screen { visibility: hidden; } }
+</style>
+</head>
+<body>
+<div id="screen"><canvas id="c" width="320" height="180"></canvas><div id="txt"></div></div>
+<div id="rot"><div class="ph"></div><div>スマホを横にしてください</div></div>
+<!-- 版の印（?v=）。ふつうの再読み込みでも新しい版を読むように、読み込むものすべてに付ける。version.js と同じ版にする -->
+<script type="importmap">
+{
+  "imports": {
+    "./version.js": "./version.js?v=0.8.0",
+    "./data/cards.js": "./data/cards.js?v=0.8.0",
+    "./data/combos.js": "./data/combos.js?v=0.8.0",
+    "./data/decks.js": "./data/decks.js?v=0.8.0",
+    "./data/events.js": "./data/events.js?v=0.8.0",
+    "./data/music.js": "./data/music.js?v=0.8.0",
+    "./data/enemies.js": "./data/enemies.js?v=0.8.0",
+    "./data/people.js": "./data/people.js?v=0.8.0",
+    "./data/potions.js": "./data/potions.js?v=0.8.0",
+    "./data/relics.js": "./data/relics.js?v=0.8.0",
+    "./data/run.js": "./data/run.js?v=0.8.0",
+    "./data/sprites.js": "./data/sprites.js?v=0.8.0",
+    "./data/text.js": "./data/text.js?v=0.8.0",
+    "./data/vows.js": "./data/vows.js?v=0.8.0",
+    "./data/ascension.js": "./data/ascension.js?v=0.8.0",
+    "./data/achievements.js": "./data/achievements.js?v=0.8.0",
+    "./data/unlocks.js": "./data/unlocks.js?v=0.8.0",
+    "./src/art.js": "./src/art.js?v=0.8.0",
+    "./src/bot.js": "./src/bot.js?v=0.8.0",
+    "./src/fx.js": "./src/fx.js?v=0.8.0",
+    "./src/main.js": "./src/main.js?v=0.8.0",
+    "./src/music.js": "./src/music.js?v=0.8.0",
+    "./src/rules.js": "./src/rules.js?v=0.8.0",
+    "./src/save.js": "./src/save.js?v=0.8.0",
+    "./src/sfx.js": "./src/sfx.js?v=0.8.0"
+  }
+}
+</script>
+<script type="module" src="src/main.js?v=0.8.0"></script>
+</body>
+</html>

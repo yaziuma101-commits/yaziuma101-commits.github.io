@@ -71,3 +71,27 @@ Cloudflare 側の準備（ダッシュボードで1回だけ）:
 KV が結びついていないあいだは、カウンターに「-------」と出るだけで、ほかは普通に動く。
 KV の無料枠は書き込みが1日1,000回まで（1日1,000人を超えると、その日の超えた分は数えられない）。
 手元の `python -m http.server` では Functions が動かないので、カウンターは「-------」になる。
+
+## 仕掛け（2026-11-17）
+
+| 仕掛け | 場所 |
+|---|---|
+| キリ番のお祝い画面と証明書（画像で保存） | `top.js`（カウンターの結果から呼ぶ） |
+| 足あと帳（掲示板・モヒカンのスタンプ） | `bbs.html`・`bbs.js`・`functions/api/bbs.js` |
+| 今日のタクアン占い（1日1回） | `top.js` |
+| 隠しモヒカン → ひみつの部屋（見つけた人数） | トップの下の波の上・`himitsu.html`・`functions/api/secret.js` |
+| ついてくるちびモヒ（スマホはタップした所へ。右下で消せる） | `extras.js` |
+| 肖像に話しかける | `aisatsu.html` の中 |
+| 放置すると居眠り（45秒） | `extras.js` |
+| 熟成デッキ | `games/jukusei-deck/`（AI_Soft の origin/main の `projects/jukusei-deck/game` を写した。テストと道具は除いた） |
+| 時間で変わる空・深夜の夜ふかしヌス | `extras.js`・`style.css` |
+| 記念日の飾り（11/7 開設日・12/20〜25 クリスマス・1/1〜3 正月） | `extras.js` |
+
+足あと帳と隠しページの人数は、カウンターと同じ KV（`COUNTER`）を使う（キーは `bbs:list`・`bbs:wait:…`・`secret:total`）。
+足あと帳の荒らしよけ: お名前16文字・ひとこと140文字まで、URL は書けない、同じ人は1分あける、人に見えない欄に何か入っていたら機械とみなす、表示は textContent。
+
+**足あと帳を消す（管理）**: Cloudflare の「Workers & Pages」→ `takuan-site` →「設定」→「変数とシークレット」で、**`BBS_ADMIN_KEY`** に好きな長い文字列を「シークレット（暗号化）」で入れて再デプロイ。
+`https://takuan-site.pages.dev/bbs#kanri` を開くと鍵の欄が出るので、同じ文字列を入れて「消すボタンを出す」。鍵を入れない限り、だれも消せない。
+
+手元で Functions ごと確かめるとき: `node tools/dev-server.mjs`（KV はメモリの中。鍵は `local-test`）。
+手元（localhost）だけ、URL に `?kiriban=7777`（お祝い画面）・`?date=2026-12-24&hour=2`（日時）・`?idle=3`（居眠りまでの秒）を付けて見た目を確かめられる。

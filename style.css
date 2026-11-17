@@ -17,6 +17,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
@@ -334,3 +335,134 @@ code { font-size: 12px; background: var(--pale); padding: 0 3px; border: 1px sol
   .kiriban { animation: none; }
   html { scroll-behavior: auto; }
 }
+
+/* ===== 仕掛け（2026-11-17） ===== */
+.title-box { position: relative; overflow: hidden; }
+.title-box > * { position: relative; z-index: 1; }
+.title-box > .sky-tag { position: absolute; }
+.title-box > .snow { position: absolute; z-index: 0; }
+.sky-tag { position: absolute; top: 6px; right: 10px; margin: 0; font: 12px var(--font-dot); color: var(--h); opacity: .9; }
+/* 時間で変わる空（夜はもとの星空のまま） */
+.sky-asa .title-box { background: linear-gradient(#ffb98a, #ffd9a8 35%, #9ad8ff); }
+.sky-hiru .title-box { background: linear-gradient(#45a8ef, #9ad8ff); }
+.sky-hiru .title-box::before, .sky-asa .title-box::before { /* ドットの雲 */
+  content: ""; position: absolute; left: 2%; top: 22px; width: 48px; height: 12px; background: #fff;
+  box-shadow: 12px -8px 0 #fff, 24px 0 0 #fff, 40px 52px 0 #fff, 52px 46px 0 #fff, calc(min(900px, 100vw) - 150px) 30px 0 #fff, calc(min(900px, 100vw) - 138px) 22px 0 #fff, calc(min(900px, 100vw) - 126px) 30px 0 #fff;
+  opacity: .9; pointer-events: none;
+}
+.sky-asa .title-box::before { opacity: .55; }
+.sky-yuu .title-box { background: linear-gradient(#3a2a7a, #d0507a 45%, #ff9a4a); }
+.sky-shinya .title-box { background-color: #050a2a; }
+.sky-asa .title-sub, .sky-hiru .title-sub, .sky-asa .sky-tag, .sky-hiru .sky-tag { color: var(--o); }
+.yofukashi { display: flex; align-items: center; justify-content: center; gap: 8px; margin: -4px 0 8px; font: 13px var(--font-dot); color: #ffe066; }
+.yofukashi img { width: 40px; height: 42px; }
+
+/* 記念日 */
+.garland {
+  height: 14px; margin: -14px -12px 6px;
+  background:
+    linear-gradient(135deg, #d8392b 25%, transparent 25%) 0 0 / 28px 14px repeat-x,
+    linear-gradient(225deg, #ffd23f 25%, transparent 25%) 14px 0 / 28px 14px repeat-x;
+}
+.matsuri-xmas .garland { background: linear-gradient(135deg, #d8392b 25%, transparent 25%) 0 0 / 28px 14px repeat-x, linear-gradient(225deg, #3fae4f 25%, transparent 25%) 14px 0 / 28px 14px repeat-x; }
+.matsuri-shogatsu .garland { background: linear-gradient(135deg, #d8392b 25%, transparent 25%) 0 0 / 28px 14px repeat-x, linear-gradient(225deg, #fff 25%, transparent 25%) 14px 0 / 28px 14px repeat-x; }
+.matsuri-say { position: relative; z-index: 1; display: inline-block; margin: -4px 0 10px; padding: 2px 12px; font: 14px var(--font-dot); color: #7a1010; background: #fff3b0; border: 2px solid #c9a227; }
+.snow { position: absolute; inset: 0; pointer-events: none; }
+.snow i { position: absolute; top: -8px; width: 4px; height: 4px; background: #fff; animation: snow 6s linear infinite; }
+@keyframes snow { to { transform: translate(18px, 190px); } }
+
+/* ちびモヒ */
+.chibi { position: fixed; left: 0; top: 0; z-index: 60; width: 30px; height: 36px; pointer-events: none; will-change: transform; }
+.chibi-toggle {
+  position: fixed; right: 10px; bottom: 10px; z-index: 61;
+  font: 11px/1.4 var(--font-body); color: var(--ink); padding: 2px 8px;
+  background: #e8edf6; border: 2px outset #c7d3ea; cursor: pointer; opacity: .85;
+}
+.chibi-toggle:hover { opacity: 1; background: var(--hover-bg); }
+
+/* 居眠り */
+.inemuri {
+  position: fixed; left: 10px; bottom: 10px; z-index: 59; width: 150px;
+  padding: 4px; background: #fff; border: 2px solid var(--o); box-shadow: 3px 3px 0 #a9c6ea;
+  text-align: center; font: 12px var(--font-dot);
+}
+.inemuri img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.inemuri .zzz { position: absolute; top: 2px; right: 8px; font-size: 18px; color: var(--b); }
+.inemuri .zzz i, .inemuri .zzz b { font-style: normal; font-weight: 400; display: inline-block; animation: zzz 2s steps(2) infinite; }
+.inemuri .zzz b { animation-delay: .5s; font-size: 13px; }
+@keyframes zzz { 50% { transform: translateY(-5px); } }
+.inemuri.waking { animation: hop .3s steps(2) 2; }
+.inemuri.waking .zzz { display: none; }
+@keyframes hop { 50% { transform: translateY(-8px); } }
+
+/* 占い */
+.omikuji { text-align: center; }
+.omikuji-result { margin: 8px 0 0; padding: 8px; text-align: left; font-size: 12px; background: #fffbe0; border: 1px dashed #c9a227; }
+.omikuji-result .kuji { display: block; text-align: center; font: 26px/1.3 var(--font-dot); color: #c8161d; }
+.omikuji-result dl { margin: 6px 0 0; display: grid; grid-template-columns: max-content 1fr; gap: 2px 6px; }
+.omikuji-result dt { color: var(--ink-soft); }
+.omikuji-result dd { margin: 0; }
+.omikuji-again { margin: 6px 0 0; font-size: 11px; color: var(--ink-soft); text-align: center; }
+
+/* 隠しモヒカン */
+.foot { position: relative; }
+.kakure { position: absolute; right: 18%; top: -4px; width: 12px; height: 12px; image-rendering: pixelated; opacity: .8; }
+.kakure:hover { background: none; opacity: 1; }
+
+/* キリ番の証明書 */
+.kiri-dialog { max-width: min(680px, calc(100vw - 32px)); padding: 0; border: 2px solid var(--o); background: var(--paper); box-shadow: 0 0 0 4px #fff, 0 0 0 6px var(--o); }
+.kiri-dialog::backdrop { background: rgba(10, 18, 60, .7); }
+.kiri-dialog .box-title { margin: 0; }
+.kiri-body { padding: 12px; text-align: center; }
+.kiri-body canvas { width: 100%; height: auto; border: 1px solid var(--o); background: #fff; }
+.kiri-body h3 { margin: 4px 0 8px; font: 400 22px var(--font-dot); color: #c8161d; animation: blink 1s steps(1) infinite; }
+.kiri-form { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; align-items: center; margin-top: 10px; }
+.kiri-form input { font: 14px var(--font-body); padding: 3px 6px; border: 2px inset #c9dcf4; width: 12em; }
+
+/* 足あと帳 */
+.bbs-form { display: grid; gap: 8px; padding: 10px; background: var(--pale); border: 2px inset #c9dcf4; }
+.bbs-form label { display: block; font-weight: bold; }
+.bbs-form input[type=text], .bbs-form textarea { width: 100%; font: 14px var(--font-body); padding: 4px 6px; border: 2px inset #c9dcf4; background: #fff; }
+.bbs-form textarea { height: 5em; resize: vertical; }
+.bbs-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.stamps { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; border: 0; }
+.stamps legend { font-weight: bold; padding: 0; margin-bottom: 4px; }
+.stamps label { position: relative; display: flex; flex-direction: column; align-items: center; font: 400 11px var(--font-dot); cursor: pointer; padding: 4px; background: #fff; }
+.stamps input { position: absolute; opacity: 0; }
+.stamps input:checked + img { outline: 2px solid #c8161d; outline-offset: 2px; }
+.stamps input:focus-visible + img { outline: 2px dashed var(--b); outline-offset: 2px; }
+.stamps img { width: 32px; height: 40px; }
+.bbs-msg { margin: 0; min-height: 1.5em; font-weight: bold; }
+.bbs-msg.err { color: #c8161d; }
+.bbs-list { list-style: none; margin: 12px 0 0; padding: 0; }
+.bbs-list li { display: grid; grid-template-columns: 40px 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px dotted #9fb6dc; }
+.bbs-list img { width: 32px; height: 40px; }
+.bbs-head { font-size: 12px; color: var(--ink-soft); }
+.bbs-head b { color: var(--b); font-size: 14px; margin-right: 6px; }
+.bbs-text { margin: 2px 0 0; white-space: pre-wrap; word-break: break-word; }
+.bbs-del { margin-left: 8px; font-size: 11px; padding: 0 6px; }
+.kanri { margin-top: 12px; padding: 8px; border: 1px dashed #c8161d; font-size: 12px; }
+
+/* 話しかける肖像 */
+.portrait-photo { cursor: pointer; }
+.portrait-photo:focus-visible { outline: 3px dashed var(--b); outline-offset: 3px; }
+.talk { position: relative; margin: 16px 0 0; padding: 8px 10px; font: 14px/1.5 var(--font-dot); background: #fff; border: 2px solid var(--o); border-radius: 10px; text-align: left; }
+.talk::before { content: ""; position: absolute; left: 50%; top: -12px; border: 6px solid transparent; border-bottom-color: var(--o); }
+.talk-hint { display: block; margin-top: 2px; font-size: 11px; color: var(--b); }
+
+@media (max-width: 460px) {
+  .inemuri { width: 110px; }
+  .title-box > .sky-tag { position: static; margin: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .snow { display: none; }
+  .inemuri .zzz i, .inemuri .zzz b, .kiri-body h3 { animation: none; }
+}
+.game-table-2 { margin-top: 12px; }
+.shots-one { grid-template-columns: 1fr; height: 100%; }
+.shots-one img { aspect-ratio: 16 / 9; }
+.game-body h3 small { font-size: 12px; color: var(--ink-soft); }
+.himitsu-pic { text-align: center; margin: 0 0 12px; }
+.himitsu-pic img { max-width: 320px; width: 100%; border: 4px solid var(--brown); background: #fff; }
+.finders { font: 400 22px var(--font-dot); color: #c8161d; }
+.game-table-2 .game-shots { vertical-align: middle !important; }

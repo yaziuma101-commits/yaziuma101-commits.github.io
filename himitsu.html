@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ひみつの部屋 | タクアンの島</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="images/drawings/toufu.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page" id="top">
+  <header class="title-box">
+    <p class="title-sub">～ タクアンの島 ～</p>
+    <h1 class="site-title"><span>ひみつの部屋</span></h1>
+    <div class="ticker" aria-hidden="true"><span>★ よく見つけたね ★ ここのことは、ないしょにしてね ★ 言いたくなったら、言ってもいいよ ★</span></div>
+  </header>
+
+  <div class="layout layout-one">
+    <main class="main">
+      <section class="box letter">
+        <h2 class="box-title">見つかってしまった</h2>
+        <div class="himitsu-pic">
+          <img src="images/drawings/heya-no-sumi.webp" alt="部屋のすみに隠れるタクアリヌス（タクアン画）">
+        </div>
+        <p>あっ。</p>
+        <p>……見つかってしまいました。ここは、看板係タクアリヌスがときどきサボりに来る部屋のすみです。</p>
+        <p>あなたは、この部屋を見つけた <b class="finders" id="finders">？</b> 人目の人です。</p>
+        <p>見つけた記念に、ひとつ秘密を教えます。<b>モヒカンのしましまは、数えると毎回ちがう数になります。</b>ぼくも理由は知りません。</p>
+        <p class="small">（この文章も AI が書きました。部屋のすみの絵はタクアンの手描きです）</p>
+        <p class="more"><a class="btn" href="index.html">そっと戻る</a></p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="foot">
+    <div class="nami" aria-hidden="true"></div>
+    <p>Since 2026.11.07　© タクアン</p>
+  </footer>
+</div>
+  <script>
+  // 見つけた人数。同じブラウザからは1回だけ数える
+  (function () {
+    let found = false;
+    try { found = localStorage.getItem("takuan-himitsu") === "1"; } catch (e) { /* 数える */ }
+    fetch("/api/secret", { method: found ? "GET" : "POST" })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then(({ count }) => {
+        try { localStorage.setItem("takuan-himitsu", "1"); } catch (e) { /* 何もしない */ }
+        document.getElementById("finders").textContent = count;
+      })
+      .catch(() => { document.getElementById("finders").textContent = "（数え中の）"; });
+  })();
+  </script>
+  <script src="extras.js"></script>
+</body>
+</html>

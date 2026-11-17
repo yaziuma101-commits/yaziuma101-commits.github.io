@@ -26,14 +26,16 @@
 
         <figure class="portrait">
           <div class="portrait-frame">
-            <div class="portrait-photo">
+            <div class="portrait-photo" id="portrait" tabindex="0" role="button" aria-label="タクアリヌスに話しかける">
               <img src="images/drawings/atama-poripori.webp" alt="タクアリヌスの肖像（タクアン画）">
             </div>
           </div>
           <figcaption>
             <span class="portrait-plate">看板係（自称）<b>タクアリヌス</b></span>
             <small>近影。撮影の直前に頭がかゆくなりました。</small>
+            <small class="talk-hint">▲ 肖像を押すと話しかけられます</small>
           </figcaption>
+          <p class="talk" id="talk" aria-live="polite" hidden></p>
         </figure>
 
         <p>はじめまして。ぼくは <b>タクアリヌス</b>。このホームページの看板係です（自称です。だれにも頼まれていません）。</p>
@@ -83,5 +85,44 @@
     <p>Since 2026.11.07　© タクアン　絵・ゲームの無断転載はご遠慮ください</p>
   </footer>
 </div>
+  <script>
+  // 肖像を押すと、タクアリヌスがひとこと返す（文は用意したもの。AI は呼ばない）
+  (function () {
+    const LINES = [
+      "はい、看板係です。ご用件は？",
+      "モヒカンは、さわらないでって言ったでしょ。",
+      "いま撮影中なので、動けません。",
+      "この額縁、じつは段ボールです。ないしょね。",
+      "たくあん、持ってない？",
+      "ぼくの目、点だけど、ちゃんとあなたを見てるよ。",
+      "押しても何も出ないよ。……ほら、出ないでしょ。",
+      "今日はいい天気ですね。ここからは空が見えないけど。",
+      "社長っぽく見える？ 看板係だけど。",
+      "キリ番、踏んだ？ 踏んだら教えてね。",
+      "頭がかゆいのは、モヒカンを立てすぎたせいかもしれない。",
+      "そんなに押されると、照れる。",
+      "ゲームの中では、もっとかっこいいんだよ。たぶん。",
+      "足あと帳に、なにか書いていってよ。",
+      "ぼくを押した回数、ちゃんと数えてるからね。（数えてない）",
+      "えらい人の写真のまねをしてみたけど、どう？",
+      "このあいさつ文、AI が書いたんだって。ぼくも知らなかった。",
+      "しーっ。どこかに小さなモヒカンが隠れてるらしいよ。",
+    ];
+    const photo = document.getElementById("portrait");
+    const talk = document.getElementById("talk");
+    let last = -1, count = 0;
+    function speak() {
+      count++;
+      let i;
+      do { i = Math.floor(Math.random() * LINES.length); } while (i === last && LINES.length > 1);
+      last = i;
+      talk.textContent = count >= 12 && count % 12 === 0 ? "もう " + count + " 回も押してる。そろそろ休憩しよう。" : LINES[i];
+      talk.hidden = false;
+    }
+    photo.addEventListener("click", speak);
+    photo.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); speak(); } });
+  })();
+  </script>
+  <script src="extras.js"></script>
 </body>
 </html>

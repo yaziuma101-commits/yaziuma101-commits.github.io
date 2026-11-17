@@ -158,6 +158,7 @@
             const k = document.getElementById("kiriban");
             k.textContent = "★ キリ番 " + count + " です！おめでとう！ ★";
             k.hidden = false;
+            if (window.showKiriban) window.showKiriban(count); // お祝いの画面と証明書（top.js）
           }
         }
       })

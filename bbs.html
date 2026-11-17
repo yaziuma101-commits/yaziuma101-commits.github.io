@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>足あと帳 | タクアンの島</title>
+  <meta name="description" content="タクアンの島の足あと帳（掲示板）。モヒカンのスタンプでひとことどうぞ">
+  <link rel="icon" href="images/drawings/toufu.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page" id="top">
+  <header class="title-box">
+    <p class="title-sub">～ タクアンの島 ～</p>
+    <h1 class="site-title">
+      <img class="px" src="images/retro/taku.gif" width="48" height="63" alt="">
+      <span>足あと帳</span>
+    </h1>
+    <div class="ticker" aria-hidden="true"><span>★ 来た記念に、モヒカンのスタンプでひとことどうぞ ★ 荒らしはタクアリヌスがモヒカンでつつきます ★</span></div>
+  </header>
+
+  <div class="layout layout-one">
+    <main class="main">
+      <section class="box">
+        <h2 class="box-title">書きこむ</h2>
+        <p class="back"><a href="index.html">← トップへ戻る</a></p>
+        <form class="bbs-form" id="bbs-form" autocomplete="off">
+          <div><label for="bbs-name">お名前（16文字まで。なくてもよい）</label><input type="text" id="bbs-name" name="name" maxlength="16" placeholder="名なしのモヒカン"></div>
+          <div><label for="bbs-msg">ひとこと（140文字まで）</label><textarea id="bbs-msg" name="msg" maxlength="140" required></textarea></div>
+          <div class="hp" aria-hidden="true"><label>ここは空のまま <input type="text" name="hp" tabindex="-1"></label></div>
+          <fieldset class="stamps">
+            <legend>モヒカンのスタンプ</legend>
+            <label><input type="radio" name="stamp" value="aoi" checked><img class="px" src="images/retro/stamp-aoi.gif" alt="">よろしく</label>
+            <label><input type="radio" name="stamp" value="yaa"><img class="px" src="images/retro/stamp-yaa.gif" alt="">やあ</label>
+            <label><input type="radio" name="stamp" value="kin"><img class="px" src="images/retro/stamp-kin.gif" alt="">すごい</label>
+            <label><input type="radio" name="stamp" value="niji"><img class="px" src="images/retro/stamp-niji.gif" alt="">にじ</label>
+            <label><input type="radio" name="stamp" value="nemui"><img class="px" src="images/retro/stamp-nemui.gif" alt="">ねむい</label>
+            <label><input type="radio" name="stamp" value="oko"><img class="px" src="images/retro/stamp-oko.gif" alt="">おこ</label>
+          </fieldset>
+          <p class="small" style="margin:0">URL は書けません。続けて書くときは1分あけてください。消してほしい書きこみは X でタクアンへ。</p>
+          <div><button class="btn btn-go" type="submit">足あとを残す</button></div>
+          <p class="bbs-msg" id="bbs-say" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="box">
+        <h2 class="box-title">みんなの足あと</h2>
+        <ul class="bbs-list" id="bbs-list"><li class="small">読みこみ中……</li></ul>
+        <div class="kanri" id="kanri" hidden>
+          管理用: 消す鍵 <input type="password" id="kanri-key" autocomplete="off"> <button class="btn" type="button" id="kanri-on">消すボタンを出す</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="foot">
+    <div class="nami" aria-hidden="true"></div>
+    <p><a href="#top">▲ ページの上へ</a>　<a href="index.html">トップへ戻る</a></p>
+    <p>Since 2026.11.07　© タクアン</p>
+  </footer>
+</div>
+  <script src="bbs.js"></script>
+  <script src="extras.js"></script>
+</body>
+</html>

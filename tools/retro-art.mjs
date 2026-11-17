@@ -272,3 +272,73 @@ function gif(name, frames, delays) {
   put(10, 10); put(34, 34);
   gif("kabegami.gif", [cv], [0]);
 }
+
+// ======== 仕掛け用（2026-11-17 追加） ========
+C.N = "#3fae4f"; // 緑
+C.P = "#d0d4dc"; // 電話の灰色
+
+// ---- 9. ちびモヒ（歩く2コマ。右向き） ----
+{
+  const top = [
+    "....OO....",
+    "...OBLO...",
+    "..OOBLOO..",
+    ".OBBBBBBO.",
+    "OBWWWWWWBO",
+    "OBWKWWKWBO",
+    "OBWWWWWWBO",
+    "OBBBBBBBBO",
+    ".OBBBBBBO.",
+    "..OOOOOO..",
+  ];
+  const a = canvas(10, 12); stamp(a, [...top, "..OB..BO..", ".OOO..OOO."], 0, 0);
+  const b = canvas(10, 12); stamp(b, ["..........", ...top, "...OBBO..."], 0, 0);
+  gif("chibi.gif", [a, b], [18, 18]);
+  const st = canvas(10, 12); stamp(st, [...top, "..OB..BO..", "..OO..OO.."], 0, 0);
+  gif("chibi-stand.gif", [st], [0]);
+}
+
+// ---- 10. 隠しモヒカン（小さい） ----
+{
+  const cv = canvas(6, 6);
+  stamp(cv, ["..OO..", ".OBLO.", ".OBLO.", ".OBLO.", "OBLBLO", "OOOOOO"], 0, 0);
+  gif("kakure.gif", [cv], [0]);
+}
+
+// ---- 11. 夜ふかしヌス（半目でスマホ） ----
+{
+  const halfEyes = TAKU.map((r, y) => (y === 8 ? r.replace(/K/g, "O") : r));
+  const make = (screen) => {
+    const cv = canvas(20, 21);
+    stamp(cv, halfEyes, 0, 1);
+    stamp(cv, ["OOOO", "O" + screen + screen + "O", "O" + screen + screen + "O", "OPPO", "OOOO"], 14, 10);
+    return cv;
+  };
+  gif("yofukashi.gif", [make("L"), make("H"), make("L"), make("W")], [50, 8, 70, 6]);
+}
+
+// ---- 12. サンタ帽のタクアリヌス（モヒカンは帽子を突き抜ける） ----
+{
+  const hat = (g) => g.map((r, y) => (y === 2 ? "...ORRBLBLRRO..." : y === 3 ? "..OWWWWWWWWWWO.." : r));
+  const a = canvas(16, 21); stamp(a, hat(TAKU), 0, 1);
+  const b = canvas(16, 21); stamp(b, hat(TAKU_BLINK), 0, 1);
+  gif("santa.gif", [a, a, b, a], [60, 60, 12, 40]);
+}
+
+// ---- 13. 足あと帳のスタンプ（6種） ----
+{
+  const recolorMohawk = (g, b, l) => g.map((r, y) => (y < 4 ? r.replace(/B/g, "#").replace(/L/g, "%").replace(/#/g, b).replace(/%/g, l) : r));
+  const variants = {
+    "aoi": TAKU,
+    "kin": recolorMohawk(TAKU, "Y", "W"),
+    "oko": recolorMohawk(TAKU, "R", "G").map((r, y) => (y === 7 ? "OBBWKWWWWWWKWBBO".slice(0, 16) : r)),
+    "nemui": TAKU_BLINK.map((r, y) => (y === 9 ? r.replace(/K/g, "O") : r)),
+    "niji": TAKU.map((r, y) => (y >= 1 && y <= 3 ? r.slice(0, 6) + "RYNL" + r.slice(10) : r)),
+  };
+  for (const [name, g] of Object.entries(variants)) {
+    const cv = canvas(16, 20); stamp(cv, g, 0, 0);
+    gif("stamp-" + name + ".gif", [cv], [0]);
+  }
+  const w = canvas(22, 21); stamp(w, TAKU, 3, 1); stamp(w, ARM_LEFT, 0, 11, true); stamp(w, ARM_UP, 19, 6);
+  gif("stamp-yaa.gif", [w], [0]);
+}

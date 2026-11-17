@@ -24,7 +24,7 @@
       <span>タクアンの島</span>
       <img class="px flip" src="images/retro/taku.gif" width="48" height="63" alt="">
     </h1>
-    <div class="ticker" aria-hidden="true"><span>★ ようこそ！タクアンの島へ ★ 絵・GIF・ゲーム・実況・グッズを置いています ★ キリ番を踏んだ方は X で教えてね ★ タクアリヌスのご挨拶ページができました ★ このサイトの文章は AI が書きました。絵は本人の手描きです ★</span></div>
+    <div class="ticker" aria-hidden="true"><span>★ ようこそ！タクアンの島へ ★ 絵・GIF・ゲーム・実況・グッズを置いています ★ キリ番を踏んだ方は X で教えてね ★ タクアリヌスのご挨拶ページができました ★ このサイトの文章は AI が書きました。絵は本人の手描きです ★ 足あと帳ができました ★ 今日のタクアン占いもどうぞ ★ どこかに小さなモヒカンが隠れています ★</span></div>
   </header>
 
   <div class="layout">
@@ -39,11 +39,12 @@
           <li><a href="drawings.html">すべての絵</a></li>
           <li><a href="#gifs">GIF</a></li>
           <li><a href="#games">ゲーム</a></li>
+          <li><a href="games/jukusei-deck/" target="_blank" rel="noopener">熟成デッキ</a> <img class="px new" src="images/retro/new.gif" width="38" height="14" alt="NEW!"></li>
           <li><a href="#videos">実況</a></li>
           <li><a href="#goods">グッズ</a></li>
           <li><a href="#links">リンク集</a></li>
           <li class="wip">日記 <small>（工事中）</small></li>
-          <li class="wip">掲示板 <small>（工事中）</small></li>
+          <li><a href="bbs.html">足あと帳</a> <img class="px new" src="images/retro/new.gif" width="38" height="14" alt="NEW!"></li>
         </ul>
       </div>
 
@@ -59,7 +60,15 @@
       <div class="box">
         <h2 class="box-title">ただいま工事中</h2>
         <p class="kouji"><img class="px" src="images/retro/kouji.gif" width="64" height="36" alt=""></p>
-        <p class="small">日記と掲示板を作っています。できあがりは未定です。</p>
+        <p class="small">日記を作っています。できあがりは未定です。掲示板は <a href="bbs.html">足あと帳</a> になりました！</p>
+      </div>
+
+      <div class="box omikuji" id="omikuji">
+        <h2 class="box-title">今日のタクアン占い</h2>
+        <p class="small" style="margin:0 0 6px">1日1回だけ引けます。</p>
+        <button class="btn" type="button">おみくじを引く</button>
+        <div class="omikuji-result" hidden></div>
+        <p class="omikuji-again" hidden>また明日引けます</p>
       </div>
     </aside>
 
@@ -86,6 +95,7 @@
         <dl class="history">
           <dt>2026.11.17</dt>
           <dd><img class="px new" src="images/retro/new.gif" width="38" height="14" alt="NEW!"> 昔のホームページ風に模様替えしました。カウンターを付けました。<a href="aisatsu.html">タクアリヌスのご挨拶</a> を置きました。</dd>
+          <dd style="grid-column:2"><img class="px new" src="images/retro/new.gif" width="38" height="14" alt="NEW!"> <a href="bbs.html">足あと帳</a>、今日のタクアン占い、キリ番の証明書、ゲーム「<a href="games/jukusei-deck/" target="_blank" rel="noopener">熟成デッキ</a>」を置きました。ほかにも小さな仕掛けがいくつかあります。</dd>
           <dd style="grid-column:2">絵を 91 枚さげました。いま載っている絵は、トップ 191 枚・すべての絵 2,336 枚です。</dd>
           <dt>2026.11.12</dt>
           <dd>お引っ越ししました。新しい住所は takuan-site.pages.dev です。</dd>
@@ -126,6 +136,23 @@
                 <li>音が出ます</li>
               </ul>
               <p><a class="btn btn-go" href="games/takuarinus-island/index.html" target="_blank" rel="noopener">ブラウザで遊ぶ ↗</a></p>
+            </td>
+          </tr>
+        </table>
+        <table class="game-table game-table-2">
+          <tr>
+            <td class="game-shots"><div class="shots shots-one">
+              <img src="images/game/jukusei-1.png" alt="熟成デッキの画面" loading="lazy">
+            </div></td>
+            <td class="game-body">
+              <h3>熟成デッキ <small>Ver 0.8.0</small></h3>
+              <p>札を漬けて育てるカードゲーム。札は番がたつほど漬かって強くなり、漬けすぎると腐ります。食べごろを見きわめて、樽の道具と漬け汁で 3 章の親分まで進みます。主人公はタクアリヌス。</p>
+              <ul class="game-tags">
+                <li>ブラウザで遊べる</li>
+                <li>マウスでもスマホ（横向き）でも</li>
+                <li>音が出ます</li>
+              </ul>
+              <p><a class="btn btn-go" href="games/jukusei-deck/" target="_blank" rel="noopener">ブラウザで遊ぶ ↗</a></p>
             </td>
           </tr>
         </table>
@@ -176,6 +203,7 @@
   <footer class="foot">
     <div class="nami" aria-hidden="true"></div>
     <p><a href="#top">▲ ページの上へ</a></p>
+    <a class="kakure" href="himitsu.html" aria-label="ひみつ"><img src="images/retro/kakure.gif" width="12" height="12" alt=""></a>
     <p>Since 2026.11.07　© タクアン　絵・ゲームの無断転載はご遠慮ください</p>
   </footer>
 </div>
@@ -189,6 +217,22 @@
   </dialog>
 
   <script src="data.js"></script>
+  <dialog class="kiri-dialog" id="kiri-dialog">
+    <h2 class="box-title">キリ番ゲット！</h2>
+    <div class="kiri-body">
+      <h3>★ おめでとう！ あなたは <span id="kiri-no"></span> 番目のお客様です ★</h3>
+      <canvas id="kiri-canvas" width="640" height="420"></canvas>
+      <div class="kiri-form">
+        <label>証明書に入れるお名前 <input id="kiri-name" type="text" maxlength="16" placeholder="なくてもよい"></label>
+        <a class="btn btn-go" id="kiri-save" href="#" download>証明書を保存する</a>
+        <button class="btn kiri-close" type="button">閉じる</button>
+      </div>
+      <p class="small">記念に X で教えてくれたら、タクアンがとても喜びます。</p>
+    </div>
+  </dialog>
+
   <script src="main.js"></script>
+  <script src="top.js"></script>
+  <script src="extras.js"></script>
 </body>
 </html>
