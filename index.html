@@ -65,8 +65,8 @@
 
       <div class="box omikuji" id="omikuji">
         <h2 class="box-title">今日のタクアン占い</h2>
-        <p class="small" style="margin:0 0 6px">1日1回だけ引けます。</p>
-        <button class="btn" type="button">おみくじを引く</button>
+        <p class="small" style="margin:0 0 6px">1日1回だけ引けます。タクアンの絵が1枚出ます。</p>
+        <button class="btn omikuji-draw" type="button">おみくじを引く</button>
         <div class="omikuji-result" hidden></div>
         <p class="omikuji-again" hidden>また明日引けます</p>
       </div>
@@ -218,6 +218,19 @@
   </dialog>
 
   <script src="data.js"></script>
+  <dialog class="kuji-dialog" id="kuji-dialog">
+    <h2 class="box-title">今日のタクアン占い</h2>
+    <div class="kuji-body">
+      <figure class="kuji-pic"><img src="" alt=""></figure>
+      <div class="kuji-text">
+        <p class="kuji-k"></p>
+        <p class="kuji-msg"></p>
+        <dl><dt>ラッキーアイテム</dt><dd class="kuji-item"></dd><dt>ラッキーモヒカン色</dt><dd class="kuji-color"></dd></dl>
+        <p class="small">（絵はタクアンの手描き。占いの文は AI が書きました。当たらなくても怒らないでね）</p>
+        <p class="kuji-foot"><button class="btn kuji-close" type="button">とじる</button></p>
+      </div>
+    </div>
+  </dialog>
   <dialog class="kiri-dialog" id="kiri-dialog">
     <h2 class="box-title">キリ番ゲット！</h2>
     <div class="kiri-body">

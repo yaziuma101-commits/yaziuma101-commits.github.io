@@ -67,51 +67,107 @@
     if (LOCAL && q.get("kiriban")) window.showKiriban(Number(q.get("kiriban")));
   }
 
-  // ---- 今日のタクアン占い（1日1回） ----
+  // ---- 今日のタクアン占い（1日1回）。運勢を引いて、その運勢の絵から1枚出す ----
+  // 絵はタクアンの絵（サイトに載っているもの）。コメントは絵を見てから AI が書いた
+  const A = (s) => ({ t: "images/all/thumb/" + s + ".webp", f: "images/all/full/" + s + ".webp" });
+  const D = (n) => ({ t: "images/drawings/" + n + ".webp", f: "images/drawings/" + n + ".webp" });
   const KUJI = [
-    { k: "大吉", w: 8, msg: "モヒカンがいつもより 3 ミリ高く立つ日。何をやってもだいたいうまくいきます。", item: "しましまの靴下", color: "青と水色" },
-    { k: "中吉", w: 14, msg: "いいことがふたつ、ちょっと困ることがひとつ。差し引きでいい日です。", item: "たくあん二切れ", color: "水色" },
-    { k: "小吉", w: 18, msg: "小さな幸せが、気づかないくらいの大きさで落ちています。足元を見て歩きましょう。", item: "消しゴムのかす", color: "うすい青" },
-    { k: "吉", w: 18, msg: "ふつうにいい日。ふつうが一番、とタクアリヌスは言っています（たぶん）。", item: "まるいもの", color: "白" },
-    { k: "末吉", w: 14, msg: "今はまだ芽が出ていません。夕方ごろ、なにかがちょっと伸びます。", item: "植木ばち", color: "緑" },
-    { k: "モヒ吉", w: 10, msg: "占いの本にのっていない運勢です。モヒカンにまつわる何かが起きます。起きなかったらすみません。", item: "くし", color: "モヒカン色" },
-    { k: "寝吉", w: 8, msg: "今日は寝るのが一番の開運です。この占いを見たら、もう寝てください。", item: "まくら", color: "夜の紺" },
-    { k: "凶", w: 6, msg: "大丈夫、凶のあとは上がるだけです。タクアリヌスが横で応援しています（声は小さいです）。", item: "ばんそうこう", color: "濃い青" },
-    { k: "大吉の吉", w: 4, msg: "大吉よりさらに吉、という意味です。今つくりました。いいことしか起きません。", item: "このページ", color: "金色" },
+    { k: "大吉", w: 8, color: "青と水色", pics: [
+      { ...A("2026-11/2026-11-07_23-11-31-081"), alt: "らんらんと歌いながら踊るタクアリヌス", msg: "らんらん らんらん、と歌いながら一日が終わる日。音程はずれていても大丈夫、今日はそれが正解です。", item: "音符" },
+      { ...A("2025-10/2025-10-04_01-42-55-300"), alt: "富士山の前でポーズを決めるタクアリヌス二人", msg: "富士山の前で、二人そろって決めポーズ。今日のあなたは、日本一高いところまで調子に乗れます。", item: "おそろいのポーズ" },
+      { ...A("2025-08/2025-08-31_22-37-09-731"), alt: "祝1周年と書かれたタクアリヌスの肖像画", msg: "祝・なにかの1周年。何の記念日かは分からなくても、とりあえず祝っておくと運が開けます。", item: "額縁" },
+      { ...A("2026-02/2026-02-25_23-29-32-308"), alt: "BIG LOVE と書かれた、猫とタクアリヌスが抱き合う絵", msg: "BIG LOVE の日。猫にも人にもモヒカンにも、大きめの愛を配って歩きましょう。", item: "ハート二つ" },
+      { ...A("2026-03/2026-03-31_00-28-44-885"), alt: "同士よっ！と叫んで抱き合う二人", msg: "「同士よっ！」と抱き合える相手に出会える日。ガバッといってよし。ただし相手の都合は聞くこと。", item: "ガバッ" },
+    ] },
+    { k: "中吉", w: 14, color: "水色", pics: [
+      { ...A("2026-01/2026-01-22_01-16-27-612"), alt: "みたらし団子を前にするタクアリヌス", msg: "みたらしの甘いひととき。おやつの時間をちゃんと取ると、午後の運勢が一段上がります。", item: "みたらし団子" },
+      { ...A("2025-11/2025-11-14_00-15-18-350"), alt: "たき火のそばで武器を構えるタクアリヌス", msg: "たき火のそばで、何かと戦う準備は万端。敵はたぶん出てきません。焼きマシュマロが吉。", item: "たき火" },
+      { ...A("2026-07/2026-07-25_00-09-46-348"), alt: "こっちのが涼しいと言ってうちわを持つタクアリヌス", msg: "「こっちのが涼しい」と言える場所を見つけた人の勝ち。今日は日陰と風通しに運があります。", item: "うちわ" },
+      { ...D("nakayoshi"), alt: "大きなたくあんと仲よしのタクアリヌス", msg: "大きなたくあんと仲よし。好きなものをぎゅっと抱きしめると、いいことが寄ってきます。", item: "たくあん一本" },
+      { ...D("mohifry"), alt: "モヒフライと書かれた、エビフライ風のモヒカンたち", msg: "モヒカンがエビフライになる日。何を言っているか分からなくても、揚げたては正義です。", item: "モヒフライ" },
+    ] },
+    { k: "小吉", w: 18, color: "うすい青", pics: [
+      { ...A("2026-11/2026-11-07_23-02-43-580"), alt: "実は貫通してるんでございますと説明するタクアリヌス", msg: "実はモヒカン、貫通してるんでございます。今日は小さな秘密をひとつ打ち明けると、気が楽になります。", item: "ひみつ" },
+      { ...A("2025-05/2025-05-12_23-24-32-899"), alt: "コーヒーはブラックに限りやすねと言うタクアリヌス", msg: "コーヒーはブラックに限りやすね。ちょっと大人ぶると、ちょっといいことがあります。苦かったら牛乳を足してよし。", item: "ブラックコーヒー" },
+      { ...D("toufu"), alt: "とうふ大好きと書かれた、とうふのタクアリヌス", msg: "とうふ大好き。今日はやわらかく生きると吉。角に頭をぶつけないよう気をつけて。", item: "とうふ" },
+      { ...D("onasu"), alt: "おなすだぁ〜いすき、と書かれたなすのタクアリヌス", msg: "おなす、だぁ〜いすき。好きなものを好きと言える日は、それだけで小吉です。", item: "なす" },
+    ] },
+    { k: "吉", w: 18, color: "白", pics: [
+      { ...A("2026-02/2026-02-16_22-02-26-830"), alt: "どうぞと言って何かを差し出すタクアリヌス", msg: "「どうぞ」と差し出されたら、遠慮せず受け取る日。何をもらったかは、あとで考えましょう。", item: "差し出されたもの" },
+      { ...A("2026-10/2026-10-01_23-00-15-623"), alt: "おともだちぼしゅう！！と書かれた貼り紙", msg: "おともだち、ぼしゅう中。今日は誰かに「やあ」と言ってみると、ふつうにいい日になります。", item: "貼り紙" },
+      { ...A("2026-03/2026-03-31_23-18-38-311"), alt: "あっしのことですかい？と聞くタクアリヌスたち", msg: "「あっしのことですかい？」……いいえ、あなたのことです。今日はふつうに吉です。", item: "あっし" },
+      { ...D("mohikan-motte"), alt: "モヒカンを手に持って歩くタクアリヌス", msg: "モヒカンを手に持って出かける日。外せるものは外して、身軽にいきましょう。", item: "取り外せるモヒカン" },
+    ] },
+    { k: "末吉", w: 14, color: "緑", pics: [
+      { ...A("2026-05/2026-05-12_23-04-27-527"), alt: "モヒカンが飛んでいってもセーフと言うタクアリヌス", msg: "モヒカンが飛んでいっても、セーフ。今日は何かが外れても、だいたいセーフです。", item: "予備のモヒカン" },
+      { ...A("2025-09/2025-09-10_00-08-47-666"), alt: "モヒカンになるスイッチの前のタクアリヌス", msg: "モヒカンになるスイッチを見つけても、押すのは明日にしましょう。今日はまだ芽が出る前です。", item: "押さないスイッチ" },
+      { ...A("2026-09/2026-09-26_00-16-17-702"), alt: "星空で遊びでやってんだよと言うタクアリヌス", msg: "「遊びでやってんだよ」と言える余裕が、夕方ごろ運を連れてきます。本気は明日でいい。", item: "星空" },
+    ] },
+    { k: "モヒ吉", w: 10, color: "モヒカン色", pics: [
+      { ...D("atama-poripori"), alt: "モヒカンの根元をぽりぽりかくタクアリヌス", msg: "モヒカンの根元がかゆくなる日。かいていると、ふといいことを思いつきます。", item: "くし" },
+      { ...A("2025-12/2025-12-25_00-27-46-029"), alt: "皿はもってきたか？と聞くタクアリヌス", msg: "「皿はもってきたか？」と聞かれる日。持っていくと、何かを盛ってもらえます。", item: "皿" },
+    ] },
+    { k: "寝吉", w: 8, color: "夜の紺", pics: [
+      { ...D("inemuri-kart"), alt: "カートに乗ったまま居眠りするタクアリヌス", msg: "今日は昼寝が吉。モヒカンも寝かせておくこと。乗りものの上では寝ないこと。", item: "まくら" },
+      { ...A("2026-08/2026-08-22_02-00-54-851"), alt: "おなかゴロゴロすると書かれた、寝転ぶタクアリヌス", msg: "おなかをゴロゴロさせながら寝転ぶのが、今日いちばんの開運法です。", item: "毛布" },
+      { ...A("2025-03/2025-03-15_00-20-56-325"), alt: "寝転んですしが降ってこねえかなと言うタクアリヌス", msg: "寝転んで「すしが降ってこねえかな」と待つ日。降ってきませんが、待っている時間が幸せです。", item: "空からのすし（予定）" },
+    ] },
+    { k: "凶", w: 6, color: "濃い青", pics: [
+      { ...A("2026-06/2026-06-06_02-53-33-932"), alt: "このままでは危ないと書かれたタクアリヌス", msg: "このままでは危ない。……でも、気づいた時点でもう半分大丈夫です。お茶でも飲みましょう。", item: "お茶" },
+      { ...A("2025-02/2025-02-11_23-45-17-913"), alt: "今日は何もなかった…と書かれた、ぼんやりしたタクアリヌス", msg: "今日は何もなかった……という日も、何も悪いことがなかった日です。凶のわりに平和です。", item: "ぼんやり" },
+      { ...A("2026-11/2026-11-05_23-22-44-751"), alt: "がおー！！と叫ぶタクアリヌスと、うーと唸る相手", msg: "がおー！！と言われても、うー、と言い返せば引き分け。今日は引き分けで上出来です。", item: "うー" },
+    ] },
+    { k: "大吉の吉", w: 4, color: "金色", pics: [
+      { ...A("2025-02/2025-02-05_01-21-07-597"), alt: "えをかいたのはタクアリヌス!!と胸を張るタクアリヌス", msg: "えへん。この絵をかいたのはタクアリヌス（ということになっています）。今日は胸を張るだけで、いいことしか起きません。", item: "このページ" },
+    ] },
   ];
   const omi = document.getElementById("omikuji");
-  if (omi) {
-    const btn = omi.querySelector("button");
-    const out = omi.querySelector(".omikuji-result");
+  const kdlg = document.getElementById("kuji-dialog");
+  if (omi && kdlg) {
+    const btn = omi.querySelector("button.omikuji-draw");
+    const mini = omi.querySelector(".omikuji-result");
     const again = omi.querySelector(".omikuji-again");
     const dayKey = (() => { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); })();
     const read = () => { try { return JSON.parse(localStorage.getItem("takuan-omikuji") || "null"); } catch (e) { return null; } };
-    function show(i) {
-      const r = KUJI[i];
-      out.replaceChildren();
+    const rand = (n) => crypto.getRandomValues(new Uint32Array(1))[0] % n;
+    function fill(r, p) {
+      const img = kdlg.querySelector(".kuji-pic img");
+      img.src = p.f; img.alt = p.alt + "（タクアン画）";
+      kdlg.querySelector(".kuji-k").textContent = r.k;
+      kdlg.querySelector(".kuji-msg").textContent = p.msg;
+      kdlg.querySelector(".kuji-item").textContent = p.item;
+      kdlg.querySelector(".kuji-color").textContent = r.color;
+    }
+    function show(i, j, open) {
+      const r = KUJI[i], p = r.pics[j] || r.pics[0];
+      fill(r, p);
+      mini.replaceChildren();
+      const im = document.createElement("img"); im.src = p.t; im.alt = p.alt + "（タクアン画）";
       const big = document.createElement("span"); big.className = "kuji"; big.textContent = r.k;
-      const p = document.createElement("p"); p.style.margin = "4px 0 0"; p.textContent = r.msg;
-      const dl = document.createElement("dl");
-      [["ラッキーアイテム", r.item], ["ラッキーモヒカン色", r.color]].forEach(([a, b]) => {
-        const dt = document.createElement("dt"); dt.textContent = a;
-        const dd = document.createElement("dd"); dd.textContent = b;
-        dl.append(dt, dd);
-      });
-      out.append(big, p, dl);
-      out.hidden = false;
+      const look = document.createElement("button"); look.type = "button"; look.className = "btn"; look.textContent = "もう一度見る";
+      look.addEventListener("click", () => kdlg.showModal());
+      mini.append(im, big, look);
+      mini.hidden = false;
       btn.hidden = true;
       again.hidden = false;
+      if (open) kdlg.showModal();
     }
+    kdlg.querySelector(".kuji-close").addEventListener("click", () => kdlg.close());
+    kdlg.addEventListener("click", (e) => { if (e.target === kdlg) kdlg.close(); });
     const saved = read();
-    if (saved && saved.day === dayKey && KUJI[saved.i]) show(saved.i);
+    // 手元で見た目を確かめるときだけ ?kuji=運勢の番号-絵の番号（例 5-0）
+    const force = LOCAL && /^\d+-\d+$/.test(q.get("kuji") || "") ? q.get("kuji").split("-").map(Number) : null;
+    if (force && KUJI[force[0]]) show(force[0], force[1], true);
+    else if (saved && saved.day === dayKey && KUJI[saved.i]) show(saved.i, saved.j || 0, false);
     btn.addEventListener("click", () => {
       const total = KUJI.reduce((s, r) => s + r.w, 0);
-      let n = crypto.getRandomValues(new Uint32Array(1))[0] % total, i = 0;
+      let n = rand(total), i = 0;
       while (n >= KUJI[i].w) { n -= KUJI[i].w; i++; }
-      try { localStorage.setItem("takuan-omikuji", JSON.stringify({ day: dayKey, i })); } catch (e) { /* 保存できなくても見せる */ }
+      const j = rand(KUJI[i].pics.length);
+      try { localStorage.setItem("takuan-omikuji", JSON.stringify({ day: dayKey, i, j })); } catch (e) { /* 保存できなくても見せる */ }
       btn.disabled = true;
       btn.textContent = "がらがら……";
-      setTimeout(() => show(i), 700);
+      setTimeout(() => show(i, j, true), 700);
     });
   }
 })();
